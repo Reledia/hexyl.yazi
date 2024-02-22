@@ -1,12 +1,21 @@
-# Hexyl.yazi
+# hexyl.yazi
 
-Preview any file on [yazi](https://github.com/sxyazi/yazi) using [hexyl](https://github.com/sharkdp/hexyl). To add this plugin, clone this repo inside `~/.config/yazi/hexyl.yazi`and add this to your `yazi.toml` config:
+Preview any file on [Yazi](https://github.com/sxyazi/yazi) using [hexyl](https://github.com/sharkdp/hexyl). To install, clone the repo inside your `~/.config/yazi/plugins/`:
+
+```bash
+git clone https://github.com/Reledia/hexyl.yazi.git
+```
+
+then include it in your `yazi.toml` to use:
 
 ```toml
+[plugin]
 append_previewers = [
-    { mime = "*", exec = "hexyl"},
+  { name = "*", exec = "hexyl" },
 ]
 ```
+
+Make sure you have [hexyl](https://github.com/sharkdp/hexyl) installed, and can be found in `PATH`.
 
 ## Preview
 
