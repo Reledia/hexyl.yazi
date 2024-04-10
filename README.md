@@ -11,7 +11,7 @@ then include it in your `yazi.toml` to use:
 ```toml
 [plugin]
 append_previewers = [
-  { name = "*", exec = "hexyl" },
+  { name = "*", run = "hexyl" },
 ]
 ```
 
