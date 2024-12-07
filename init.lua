@@ -5,24 +5,24 @@ function M:peek(job)
 	local l = self.file.cha.len
 	if l == 0 then
 		child = Command("hexyl")
-				:args({
-					tostring(job.file.url),
-				})
-				:stdout(Command.PIPED)
-				:stderr(Command.PIPED)
-				:spawn()
+			:args({
+				tostring(job.file.url),
+			})
+			:stdout(Command.PIPED)
+			:stderr(Command.PIPED)
+			:spawn()
 	else
 		child = Command("hexyl")
-				:args({
-					"--border",
-					"none",
-					"--terminal-width",
-					tostring(job.area.w),
-					tostring(job.file.url),
-				})
-				:stdout(Command.PIPED)
-				:stderr(Command.PIPED)
-				:spawn()
+			:args({
+				"--border",
+				"none",
+				"--terminal-width",
+				tostring(job.area.w),
+				tostring(job.file.url),
+			})
+			:stdout(Command.PIPED)
+			:stderr(Command.PIPED)
+			:spawn()
 	end
 
 	local limit = job.area.h
@@ -47,7 +47,6 @@ function M:peek(job)
 	else
 		lines = lines:gsub("\t", string.rep(" ", PREVIEW.tab_size))
 		ya.preview_widgets(job, { ui.Text.parse(lines):area(job.area) })
-		ya.err(lines)
 	end
 end
 
