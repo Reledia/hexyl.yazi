@@ -1,31 +1,30 @@
 local M = {}
 
-function M:peek()
+function M:peek(job)
 	local child
-	local l = self.file.cha.length
 	if l == 0 then
 		child = Command("hexyl")
-			:args({
-				tostring(self.file.url),
-			})
-			:stdout(Command.PIPED)
-			:stderr(Command.PIPED)
-			:spawn()
+				:args({
+					tostring(job.file.url),
+				})
+				:stdout(Command.PIPED)
+				:stderr(Command.PIPED)
+				:spawn()
 	else
 		child = Command("hexyl")
-			:args({
-				"--border",
-				"none",
-				"--terminal-width",
-				tostring(self.area.w),
-				tostring(self.file.url),
-			})
-			:stdout(Command.PIPED)
-			:stderr(Command.PIPED)
-			:spawn()
+				:args({
+					"--border",
+					"none",
+					"--terminal-width",
+					tostring(job.area.w),
+					tostring(job.file.url),
+				})
+				:stdout(Command.PIPED)
+				:stderr(Command.PIPED)
+				:spawn()
 	end
 
-	local limit = self.area.h
+	local limit = job.area.h
 	local i, lines = 0, ""
 	repeat
 		local next, event = child:read_line()
@@ -36,32 +35,23 @@ function M:peek()
 		end
 
 		i = i + 1
-		if i > self.skip then
+		if i > job.skip then
 			lines = lines .. next
 		end
-	until i >= self.skip + limit
+	until i >= job.skip + limit
 
 	child:start_kill()
-	if self.skip > 0 and i < self.skip + limit then
-		ya.manager_emit(
-			"peek",
-			{ tostring(math.max(0, i - limit)), only_if = tostring(self.file.url), upper_bound = "" }
-		)
+	if job.skip > 0 and i < job.skip + limit then
+		ya.manager_emit("peek", { math.max(0, i - limit), only_if = job.file.url, upper_bound = true })
 	else
 		lines = lines:gsub("\t", string.rep(" ", PREVIEW.tab_size))
-		ya.preview_widgets(self, { ui.Paragraph.parse(self.area, lines) })
+		ya.preview_widgets(job, { ui.Text.parse(lines):area(job.area) })
+		ya.err(lines)
 	end
 end
 
 function M:seek(units)
-	local h = cx.active.current.hovered
-	if h and h.url == self.file.url then
-		local step = math.floor(units * self.area.h / 10)
-		ya.manager_emit("peek", {
-			tostring(math.max(0, cx.active.preview.skip + step)),
-			only_if = tostring(self.file.url),
-		})
-	end
+	require("code").seek(job, units)
 end
 
 return M
