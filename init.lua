@@ -2,7 +2,7 @@ local M = {}
 
 function M:peek(job)
 	local child
-	local l = self.file.cha.len
+	local l = job.file.cha.len
 	if l == 0 then
 		child = Command("hexyl")
 			:args({
