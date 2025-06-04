@@ -5,7 +5,7 @@ function M:peek(job)
   local l = job.file.cha.len
   if l == 0 then
     child = Command("hexyl")
-        :args({
+        :arg({
           tostring(job.file.url),
         })
         :stdout(Command.PIPED)
@@ -13,7 +13,7 @@ function M:peek(job)
         :spawn()
   else
     child = Command("hexyl")
-        :args({
+        :arg({
           "--border", "none",
           "--terminal-width", tostring(job.area.w),
           tostring(job.file.url),
