@@ -1,5 +1,8 @@
 # hexyl.yazi
 
+>[!WARNING]
+>This plugin is now deprecated with the release of [Piper](https://github.com/yazi-rs/plugins/tree/main/piper.yazi#use-hexyl-as-fallback-previewer)
+
 Preview any file on [Yazi](https://github.com/sxyazi/yazi) using [hexyl](https://github.com/sharkdp/hexyl). To install, use the `ya pack` cli utility:
 
 ```bash
